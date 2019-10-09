@@ -25,24 +25,30 @@ assistant.createSession({
 
     sessionId = res.result.session_id;
 
-    console.log(sessionId);
+    assistant.message(
+	  {
+	    assistantId: '4043060f-f4e4-447c-821c-e57b953ceccb',
+	    sessionId: sessionId,
+	    input:{
+	    	'message_type': 'text',
+	    	'text': 'hola'
+	    }
+	  })
+	  .then(response => {
+	    //console.log(JSON.stringify(response.result, null, 2));
+	    var intents = response.result.output.intents;
+	    console.log(intents[0].intent);
+	  })
+	  .catch(err => {
+	    console.log(err);
+	  });
+
   })
   .catch(err => {
     console.log(err);
   });
  
-// assistant.message(
-//   {
-//     input: { text: "What's the weather?" },
-//     assistantId: '4043060f-f4e4-447c-821c-e57b953ceccb',
-//     sessionId: sessionId,
-//   })
-//   .then(response => {
-//     console.log(JSON.stringify(response.result, null, 2));
-//   })
-//   .catch(err => {
-//     console.log(err);
-//   });
+
 
 
 

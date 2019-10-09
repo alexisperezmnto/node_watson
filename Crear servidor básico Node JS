@@ -1,0 +1,77 @@
+Crear servidor básico Node JS
+-----------------------------
+
+Crear carpeta del proyecto
+Ingresar a la carpeta desde la consola
+npm init (para crear el package.json - "Enter" en todas las opciones que aparezcan)
+npm i express --save
+crear archivo en la raíz "index.js"
+cambiar en el package.json
+	"test": "echo \"Error: no test specified\" && exit 1" por
+	"start": "node index.js" (el nombre del archivo principal)
+en el archivo index.js
+
+	const express = require('express');
+	const app = express();
+
+	app.listen('3000', function() {
+		console.log('Servidor web escuchando en el puerto 3000');
+	});
+npm start
+
+
+Conectar con Watson Assistant
+
+npm install ibm-watson@^5.0.0
+
+en la página npmjs buscar ibm-watson, buscar watson version 2, copiar código
+	
+	const AssistantV2 = require('ibm-watson/assistant/v2');
+	const { IamAuthenticator } = require('ibm-watson/auth');
+	 
+	const assistant = new AssistantV2({
+	  authenticator: new IamAuthenticator({ apikey: '<apikey>' }),
+	  url: 'https://gateway.watsonplatform.net/assistant/api/',
+	  version: '2018-09-19'
+	});
+	 
+	assistant.message(
+	  {
+	    input: { text: "What's the weather?" },
+	    assistantId: '<assistant id>',
+	    sessionId: '<session id>',
+	  })
+	  .then(response => {
+	    console.log(JSON.stringify(response.result, null, 2));
+	  })
+	  .catch(err => {
+	    console.log(err);
+	  });
+
+
+pegar este código de la documentación de watson assistant para crear la sesión antes del 
+	assistant.message()
+
+	service.createSession({
+	  assistantId: '{assistant_id}'
+	})
+	  .then(res => {
+	    console.log(JSON.stringify(res, null, 2));
+	  })
+	  .catch(err => {
+	    console.log(err);
+	  });
+
+	Recorar cambiar el "service." por "asistant." porque es el objeto que se creó
+	 const assistant = new AssistantV2({...})
+
+
+
+Ingresar al watson assistant e iniciarlo. Ingresar al asistente creado. Ingresar a "skills".
+	Click en los tres puntos, "settings"y elegir "API Details"
+	Copiar Api Key y reemplazarla en el código
+	Los mismo para el assistant id, pero recordar que éste es el que caduca cada 5 minutos
+
+
+
+
