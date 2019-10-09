@@ -36,8 +36,8 @@ assistant.createSession({
 	  })
 	  .then(response => {
 	    //console.log(JSON.stringify(response.result, null, 2));
-	    var intents = response.result.output.intents;
-	    console.log(intents[0].intent);
+	    console.log(response.result.output.generic[0].text);
+	    
 	  })
 	  .catch(err => {
 	    console.log(err);
